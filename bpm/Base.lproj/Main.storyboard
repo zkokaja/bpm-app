@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,23 +18,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nzf-Z6-7gt">
-                                <rect key="frame" x="50" y="50" width="500" height="500"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nzf-Z6-7gt">
+                                <rect key="frame" x="20" y="20" width="560" height="560"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="anatomical_heart" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-59-jTx">
-                                        <rect key="frame" x="100" y="141" width="300" height="300"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="anatomical_heart" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-59-jTx">
+                                        <rect key="frame" x="130" y="130" width="300" height="300"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="IIK-vA-qD0"/>
+                                            <constraint firstAttribute="height" constant="300" id="XzX-nu-xa8"/>
+                                        </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap to start!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNV-bm-Acq">
-                                        <rect key="frame" x="7" y="29" width="485" height="32"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to start!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNV-bm-Acq">
+                                        <rect key="frame" x="212" y="45" width="137" height="31.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="qw6-59-jTx" firstAttribute="centerX" secondItem="nzf-Z6-7gt" secondAttribute="centerX" id="63e-qV-mI8"/>
+                                    <constraint firstItem="qw6-59-jTx" firstAttribute="top" secondItem="cNV-bm-Acq" secondAttribute="bottom" constant="53.5" id="Ssg-nr-8tU"/>
+                                    <constraint firstAttribute="bottom" secondItem="qw6-59-jTx" secondAttribute="bottom" constant="59" id="Tjb-f5-8y0"/>
+                                    <constraint firstItem="cNV-bm-Acq" firstAttribute="top" secondItem="nzf-Z6-7gt" secondAttribute="top" constant="39" id="i60-g2-MIY"/>
+                                    <constraint firstItem="qw6-59-jTx" firstAttribute="centerX" secondItem="cNV-bm-Acq" secondAttribute="centerX" id="rHn-ad-cXu"/>
+                                    <constraint firstItem="qw6-59-jTx" firstAttribute="centerY" secondItem="nzf-Z6-7gt" secondAttribute="centerY" id="sfL-Ra-N7P"/>
+                                    <constraint firstItem="qw6-59-jTx" firstAttribute="top" secondItem="cNV-bm-Acq" secondAttribute="bottom" constant="80" id="vsr-GQ-SLR"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Tjb-f5-8y0"/>
+                                        <exclude reference="vsr-GQ-SLR"/>
+                                        <exclude reference="i60-g2-MIY"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="nzf-Z6-7gt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="H9o-aO-e29"/>
                             <constraint firstItem="nzf-Z6-7gt" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="dad-4G-Ls7"/>
+                            <constraint firstItem="nzf-Z6-7gt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="yUF-Cs-p3T"/>
                             <constraint firstItem="nzf-Z6-7gt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yVQ-zo-xTP"/>
                         </constraints>
                     </view>
