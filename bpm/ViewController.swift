@@ -18,18 +18,18 @@ class ViewController: UIViewController {
     
     // Class variables
     var healthStore: HKHealthStore? = nil
-    var startTime: NSTimeInterval? = nil
+    var startTime: TimeInterval? = nil
     var bpm = 0.0
     var numTaps = 0.0
-    let bpmType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
+    let bpmType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)
     
     // Initiate view and tap recognizer
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tapRec.addTarget(self, action: "tappedView")
+        tapRec.addTarget(self, action: #selector(ViewController.tappedView))
         tapView.addGestureRecognizer(tapRec)
-        tapView.userInteractionEnabled = true
+        tapView.isUserInteractionEnabled = true
         
         if isHealthAvailable() {
             healthStore = HKHealthStore()
@@ -48,9 +48,9 @@ class ViewController: UIViewController {
     func tappedView() {
         
         if let start = startTime {
-            numTaps++
+            numTaps += 1
             
-            let now = NSDate().timeIntervalSince1970
+            let now = Date().timeIntervalSince1970
             let elapsed = now-start
             bpm = (60/elapsed) * numTaps
             
@@ -58,29 +58,29 @@ class ViewController: UIViewController {
                 
                 let msg = "Your heart rate is: " + String(Int(bpm))
                 
-                let tapAlert = UIAlertController(title: "Done!", message: msg, preferredStyle: UIAlertControllerStyle.Alert)
-                tapAlert.addAction(UIAlertAction(title: "Add to Health", style: .Destructive, handler: addToHomeKit))
-                tapAlert.addAction(UIAlertAction(title: "Tap again", style: .Destructive, handler: reset))
+                let tapAlert = UIAlertController(title: "Done!", message: msg, preferredStyle: UIAlertControllerStyle.alert)
+                tapAlert.addAction(UIAlertAction(title: "Add to Health", style: .destructive, handler: addToHomeKit))
+                tapAlert.addAction(UIAlertAction(title: "Tap again", style: .destructive, handler: reset))
                 
-                self.presentViewController(tapAlert, animated: true, completion: nil)
+                self.present(tapAlert, animated: true, completion: nil)
             }
             
             labelView.text = "Keep Tapping!"
         }
         else {
-            startTime = NSDate().timeIntervalSince1970
+            startTime = Date().timeIntervalSince1970
         }
         
     }
     
     // Add data point to home kit
-    func addToHomeKit(alert: UIAlertAction!) {
+    func addToHomeKit(_ alert: UIAlertAction!) {
 
         if isHealthAvailable() && isHealthAuthorized() {
-            let bpmQuantity = HKQuantity(unit: HKUnit(fromString: "count/min"), doubleValue: bpm)
-            let bpmSample = HKQuantitySample(type: bpmType!, quantity: bpmQuantity, startDate: NSDate(), endDate: NSDate())
+            let bpmQuantity = HKQuantity(unit: HKUnit(from: "count/min"), doubleValue: bpm)
+            let bpmSample = HKQuantitySample(type: bpmType!, quantity: bpmQuantity, start: Date(), end: Date())
             
-            healthStore!.saveObject(bpmSample, withCompletion: { (success, error) -> Void in
+            healthStore!.save(bpmSample, withCompletion: { (success, error) -> Void in
                 if let err = error {
                     NSLog("Error saving BMI sample: \(err.localizedDescription)")
                 }
@@ -100,14 +100,14 @@ class ViewController: UIViewController {
     
     // Check if this app is authorized to write the necessary data to Health
     func isHealthAuthorized() -> Bool {
-        return healthStore!.authorizationStatusForType(bpmType!) == HKAuthorizationStatus.SharingAuthorized
+        return healthStore!.authorizationStatus(for: bpmType!) == HKAuthorizationStatus.sharingAuthorized
     }
     
     // Request authorization from the user
     func requestAuthorization() {
         let bpmTypes : Set<HKSampleType> = [bpmType!]
         
-        healthStore!.requestAuthorizationToShareTypes(bpmTypes, readTypes: [],
+        healthStore!.requestAuthorization(toShare: bpmTypes, read: [],
             completion: { (success, error) -> Void in
             if let err = error {
                 NSLog("Error requesting for access \(err.localizedDescription)")
@@ -116,15 +116,15 @@ class ViewController: UIViewController {
     }
     
     // Convenience method for alerting messages to the user
-    func alertError(msg: String) {
-        let tapAlert = UIAlertController(title: "Alert!", message: msg, preferredStyle: UIAlertControllerStyle.Alert)
-        tapAlert.addAction(UIAlertAction(title: "Ok", style: .Destructive, handler: reset))
+    func alertError(_ msg: String) {
+        let tapAlert = UIAlertController(title: "Alert!", message: msg, preferredStyle: UIAlertControllerStyle.alert)
+        tapAlert.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: reset))
         
-        self.presentViewController(tapAlert, animated: true, completion: nil)
+        self.present(tapAlert, animated: true, completion: nil)
     }
     
     // Reset variables
-    func reset(alert: UIAlertAction!) {
+    func reset(_ alert: UIAlertAction!) {
         numTaps = 0.0
         startTime = nil
         labelView.text = "Start Tapping!"
@@ -136,7 +136,7 @@ class ViewController: UIViewController {
     }
     
     // Hide the status bar
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 
